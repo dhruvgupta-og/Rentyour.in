@@ -1711,7 +1711,7 @@ html {
     overflow: hidden;
 }
 
-.cta-button::after, .rent-now::after, .copy-code::after {
+.cta-button::after, .rent-now:hover::after, .copy-code:hover::after {
     content: '';
     position: absolute;
     top: 50%;
@@ -2212,4 +2212,321 @@ html {
     .menu-toggle {
         display: block;
     }
+}
+
+/* Dark Mode Styles */
+.dark-mode {
+    --background-light: #1a1a1a;
+    --background-white: #2d2d2d;
+    --text-dark: #ffffff;
+    --text-light: #cccccc;
+}
+
+.dark-mode-btn {
+    background: transparent !important;
+    border: none !important;
+    color: white !important;
+    font-size: 1.2em !important;
+    cursor: pointer;
+    padding: 8px !important;
+    border-radius: 50% !important;
+    width: 40px !important;
+    height: 40px !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease !important;
+}
+
+.dark-mode-btn:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    transform: rotate(360deg);
+}
+
+/* Wishlist Button */
+.wishlist-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: white;
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.wishlist-btn i {
+    color: #666;
+    font-size: 1.2em;
+    transition: all 0.3s ease;
+}
+
+.wishlist-btn.active i {
+    color: var(--error-color);
+    transform: scale(1.1);
+}
+
+.wishlist-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Product Card Update */
+.product-card {
+    position: relative;
+}
+
+/* Virtual Try-On Styling */
+.try-on-btn {
+    background: var(--gradient-secondary) !important;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+}
+
+.try-on-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.try-on-modal {
+    max-width: 800px;
+    height: 80vh;
+    padding: 0;
+}
+
+.try-on-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #000;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#webcamVideo, #tryOnCanvas {
+    width: 100%;
+    height: calc(100% - 70px);
+    object-fit: cover;
+}
+
+#productOverlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 50%;
+    opacity: 0.8;
+    pointer-events: none;
+}
+
+.try-on-controls {
+    width: 100%;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    background: rgba(0,0,0,0.8);
+}
+
+.capture-btn, .download-btn {
+    background: var(--gradient-primary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.capture-btn:hover, .download-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255,255,255,0.1);
+}
+
+/* Size Recommender Styling */
+.size-recommender-btn {
+    background: var(--gradient-primary) !important;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+}
+
+.size-recommender-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.size-modal {
+    max-width: 600px;
+    padding: 30px;
+}
+
+.size-recommender h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--text-dark);
+}
+
+.measurement-steps {
+    position: relative;
+    min-height: 400px;
+}
+
+.step {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.step.active {
+    display: block;
+}
+
+.quick-size {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-group label {
+    font-size: 0.9em;
+    color: var(--text-light);
+}
+
+.input-group input,
+.input-group select {
+    padding: 10px;
+    border: 2px solid #eee;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.fit-preference {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.fit-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+    border: 2px solid #eee;
+    border-radius: 10px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.fit-btn:hover,
+.fit-btn.active {
+    border-color: var(--primary-color);
+    background: var(--primary-color);
+    color: white;
+}
+
+.fit-btn i {
+    font-size: 2em;
+}
+
+.size-result {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    padding: 20px;
+}
+
+.size-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 3em;
+    font-weight: bold;
+}
+
+.size-stats {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0;
+}
+
+.size-stats li {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.step-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.step-indicators {
+    display: flex;
+    gap: 10px;
+}
+
+.indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #eee;
+    transition: all 0.3s ease;
+}
+
+.indicator.active {
+    background: var(--primary-color);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
