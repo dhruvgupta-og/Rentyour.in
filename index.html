@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RentYour.in - Cloth Rental Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>RentYour.in</h1>
+        </div>
+        <button class="menu-toggle" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><button onclick="onboardRetailer()">Onboard as a Retailer</button></li>
+                <li><button onclick="showLoginModal()" class="login-btn">Login</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="floating-cart">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count">0</span>
+        <div class="cart-preview">
+            <h3>Your Cart</h3>
+            <div class="cart-items">
+                <!-- Cart items will be added here dynamically -->
+            </div>
+            <div class="cart-total">
+                <span>Total:</span>
+                <span class="total-amount">₹0</span>
+            </div>
+            <button class="checkout-btn">Checkout</button>
+        </div>
+    </div>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="main-heading">India's #1 Fashion Rental Platform</h1>
+            <h2>Welcome to RentYour.in</h2>
+            <p>Your Premium Destination for Fashion Rentals</p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number">50,000+</span>
+                    <span class="stat-label">Happy Customers</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">1000+</span>
+                    <span class="stat-label">Premium Retailers</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">100+</span>
+                    <span class="stat-label">Cities Covered</span>
+                </div>
+            </div>
+            <button onclick="location.href='#services'" class="cta-button">
+                Explore Our Collection
+                <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+        <div class="search-container">
+            <input type="text" placeholder="Search for clothes...">
+            <select>
+                <option value="">Select Category</option>
+                <option value="wedding">Wedding</option>
+                <option value="party">Party</option>
+                <option value="casual">Casual</option>
+            </select>
+            <button class="search-btn">Search</button>
+        </div>
+    </section>
+
+    <div class="main-container">
+        <section class="trust-badges">
+            <div class="badge">
+                <i class="fas fa-shield-alt"></i>
+                <div class="badge-content">
+                    <span class="badge-title">100% Secure</span>
+                    <span class="badge-subtitle">Safe Payments</span>
+                </div>
+            </div>
+            <div class="badge">
+                <i class="fas fa-medal"></i>
+                <div class="badge-content">
+                    <span class="badge-title">Quality Assured</span>
+                    <span class="badge-subtitle">Premium Products</span>
+                </div>
+            </div>
+            <div class="badge">
+                <i class="fas fa-truck-fast"></i>
+                <div class="badge-content">
+                    <span class="badge-title">Express Delivery</span>
+                    <span class="badge-subtitle">Quick Shipping</span>
+                </div>
+            </div>
+            <div class="badge">
+                <i class="fas fa-headset"></i>
+                <div class="badge-content">
+                    <span class="badge-title">24/7 Support</span>
+                    <span class="badge-subtitle">Always Available</span>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <section id="services" class="services">
+        <h2>Our Services</h2>
+        <div class="service-list">
+            <div class="service-item">
+                <div class="img-container">
+                    <img src="wed.webp" alt="Wedding Clothes" loading="lazy">
+                </div>
+                <h3>Wedding Clothes</h3>
+                <p>Rent the best wedding outfits for your big day.</p>
+            </div>
+            <div class="service-item">
+                <div class="img-container">
+                    <img src="party.webp" alt="Party Wear" loading="lazy">
+                </div>
+                <h3>Party Wear</h3>
+                <p>Find the perfect party wear for any occasion.</p>
+            </div>
+            <div class="service-item">
+                <div class="img-container">
+                    <img src="casu.webp" alt="Casual Wear" loading="lazy">
+                </div>
+                <h3>Casual Wear</h3>
+                <p>Rent casual clothes for everyday use.</p>
+            </div>
+        </div>
+
+        <section class="featured-products">
+            <h2>Featured Products</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <img src="len.webp" alt="Designer Lehenga">
+                    <h3>Designer Lehenga</h3>
+                    <p class="price">Rent: ₹2000/day</p>
+                    <p class="original-price">Original: ₹25,000</p>
+                    <button class="rent-now">Rent Now</button>
+                </div>
+                <div class="product-card">
+                    <img src="suit.webp" alt="Premium Suit">
+                    <h3>Premium Suit</h3>
+                    <p class="price">Rent: ₹1500/day</p>
+                    <p class="original-price">Original: ₹15,000</p>
+                    <button class="rent-now">Rent Now</button>
+                </div>
+                <div class="product-card">
+                    <img src="saree.webp" alt="Silk Saree">
+                    <h3>Silk Saree</h3>
+                    <p class="price">Rent: ₹1000/day</p>
+                    <p class="original-price">Original: ₹12,000</p>
+                    <button class="rent-now">Rent Now</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="special-offers">
+            <h2>Special Offers</h2>
+            <div class="offer-container">
+                <div class="offer-card">
+                    <div class="offer-badge">NEW</div>
+                    <h3>First Time Users</h3>
+                    <p class="discount">20% OFF</p>
+                    <p>Use Code: FIRST20</p>
+                    <button class="copy-code">Copy Code</button>
+                </div>
+                <div class="offer-card">
+                    <div class="offer-badge">TRENDING</div>
+                    <h3>Wedding Season</h3>
+                    <p class="discount">15% OFF</p>
+                    <p>Use Code: WEDDING15</p>
+                    <button class="copy-code">Copy Code</button>
+                </div>
+                <div class="offer-card">
+                    <div class="offer-badge">LIMITED</div>
+                    <h3>Bulk Booking</h3>
+                    <p class="discount">25% OFF</p>
+                    <p>On 3+ Items</p>
+                    <button class="copy-code">Book Now</button>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <section class="size-guide">
+        <h2>Size Guide & Measurements</h2>
+        <div class="size-container">
+            <div class="size-chart">
+                <h3>Standard Size Chart</h3>
+                <table>
+                    <tr>
+                        <th>Size</th>
+                        <th>Chest (in)</th>
+                        <th>Waist (in)</th>
+                        <th>Hip (in)</th>
+                    </tr>
+                    <tr>
+                        <td>S</td>
+                        <td>34-36</td>
+                        <td>28-30</td>
+                        <td>36-38</td>
+                    </tr>
+                    <tr>
+                        <td>M</td>
+                        <td>38-40</td>
+                        <td>32-34</td>
+                        <td>40-42</td>
+                    </tr>
+                    <tr>
+                        <td>L</td>
+                        <td>42-44</td>
+                        <td>36-38</td>
+                        <td>44-46</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="measurement-tips">
+                <h3>How to Measure</h3>
+                <div class="tip-card">
+                    <i class="fas fa-ruler"></i>
+                    <p>Use a measuring tape around your chest at the fullest point</p>
+                </div>
+                <div class="tip-card">
+                    <i class="fas fa-tape"></i>
+                    <p>Measure your natural waistline</p>
+                </div>
+                <button class="measurement-video">Watch Measurement Guide</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="rental-process">
+        <h2>How It Works</h2>
+        <div class="process-steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <i class="fas fa-search"></i>
+                <h3>Browse & Select</h3>
+                <p>Choose from our wide collection</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <i class="fas fa-calendar-alt"></i>
+                <h3>Book Your Dates</h3>
+                <p>Select rental duration</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <i class="fas fa-truck-fast"></i>
+                <h3>Get Delivery</h3>
+                <p>Receive at your doorstep</p>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <i class="fas fa-box"></i>
+                <h3>Return</h3>
+                <p>Easy pickup service</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="why" class="why">
+        <h2>Why Choose RentYour.in?</h2>
+        <div class="why-items">
+            <div class="why-item">
+                <i class="fa-solid fa-plane-departure"></i>
+                <h3>Pan India Delivery</h3>
+                <p>We deliver to every corner of India</p>
+            </div>
+            <div class="why-item">
+                <i class="fa-solid fa-children"></i>
+                <h3>Couple Goals</h3>
+                <p>Perfect matching outfits for couples</p>
+            </div>
+            <div class="why-item">
+                <i class="fa-solid fa-rotate"></i>
+                <h3>Easy Returns</h3>
+                <p>Hassle-free return process</p>
+            </div>
+            <div class="why-item">
+                <i class="fa-solid fa-tags"></i>
+                <h3>Affordable Prices</h3>
+                <p>Best prices in the market</p>
+            </div>
+            <div class="why-item">
+                <i class="fa-solid fa-certificate"></i>
+                <h3>Premium Quality</h3>
+                <p>Top-notch quality assurance</p>
+            </div>
+            <div class="why-item">
+                <i class="fa-solid fa-truck-fast"></i>
+                <h3>Fast Delivery</h3>
+                <p>Quick and reliable shipping</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <h2>Contact Us</h2>
+        <form id="contactForm">
+            <input type="text" id="name" placeholder="Your Name" required>
+            <input type="email" id="email" placeholder="Your Email" required>
+            <textarea id="message" placeholder="Your Message" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+        <section class="customer-reviews">
+            <h2>What Our Customers Say</h2>
+            <div class="reviews-container">
+                <div class="review-card">
+                    <img src="user1.webp" alt="User" class="user-img">
+                    <p class="review-text">"Amazing service! Got my wedding lehenga at such a reasonable price."</p>
+                    <p class="reviewer-name">- Priya Sharma</p>
+                    <div class="stars">★★★★★</div>
+                </div>
+                <div class="review-card">
+                    <img src="user2.webp" alt="User" class="user-img">
+                    <p class="review-text">"Best rental service I've ever used. Great quality clothes!"</p>
+                    <p class="reviewer-name">- Rahul Verma</p>
+                    <div class="stars">★★★★★</div>
+                </div>
+            </div>
+        </section>
+    </section>
+    <section id="about" class="about">
+        <h2>About Us</h2>
+        <p>Welcome to RentYour.in, your ultimate destination for affordable, stylish, and sustainable fashion! At RentYour.in, we believe that looking great shouldn't come at the cost of your wallet or the planet. Our innovative cloth rental platform offers a seamless way to rent high-quality, trendy outfits for every occasion—whether it's a wedding, party, vacation, or a special event.</p>
+    </section>
+
+    <footer>
+        <div class="newsletter">
+            <h3>Subscribe to Our Newsletter</h3>
+            <p>Get updates about new arrivals and special offers!</p>
+            <div class="newsletter-form">
+                <input type="email" placeholder="Enter your email">
+                <button>Subscribe</button>
+            </div>
+        </div>
+        <p>&copy; 2023 RentYour.in. All rights reserved.</p>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-pinterest"></i></a>
+        </div>
+    </footer>
+
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeLoginModal()">&times;</span>
+            <div class="login-container">
+                <h2>Login to RentYour.in</h2>
+                <div class="login-tabs">
+                    <button class="tab-btn active" onclick="switchTab('customer')">Customer</button>
+                    <button class="tab-btn" onclick="switchTab('retailer')">Retailer</button>
+                </div>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="loginEmail" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="loginPassword" placeholder="Password" required>
+                    </div>
+                    <div class="remember-forgot">
+                        <label>
+                            <input type="checkbox" id="rememberMe">
+                            Remember me
+                        </label>
+                        <a href="#" onclick="showForgotPassword()">Forgot Password?</a>
+                    </div>
+                    <button type="submit" class="login-submit">Login</button>
+                    <div class="or-divider">
+                        <span>OR</span>
+                    </div>
+                    <div class="social-login">
+                        <button type="button" class="google-btn">
+                            <i class="fab fa-google"></i> Continue with Google
+                        </button>
+                        <button type="button" class="facebook-btn">
+                            <i class="fab fa-facebook-f"></i> Continue with Facebook
+                        </button>
+                    </div>
+                </form>
+                <p class="signup-link">Don't have an account? <a href="#" onclick="showSignupModal()">Sign up</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeSignupModal()">&times;</span>
+            <div class="signup-container">
+                <h2>Create Account</h2>
+                <div class="signup-tabs">
+                    <button class="tab-btn active" onclick="switchSignupTab('customer')">Customer</button>
+                    <button class="tab-btn" onclick="switchSignupTab('retailer')">Retailer</button>
+                </div>
+                <form id="signupForm">
+                    <div class="form-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="signupName" placeholder="Full Name" required>
+                    </div>
+                    <div class="form-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="signupEmail" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <i class="fas fa-phone"></i>
+                        <input type="tel" id="signupPhone" placeholder="Phone Number" required>
+                    </div>
+                    <div class="form-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="signupPassword" placeholder="Password" required>
+                        <div class="password-strength"></div>
+                    </div>
+                    <div class="form-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+                    </div>
+                    <div class="terms-privacy">
+                        <label>
+                            <input type="checkbox" id="termsAccept" required>
+                            I accept the <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a>
+                        </label>
+                    </div>
+                    <button type="submit" class="signup-submit">Create Account</button>
+                    <div class="or-divider">
+                        <span>OR</span>
+                    </div>
+                    <div class="social-signup">
+                        <button type="button" class="google-btn">
+                            <i class="fab fa-google"></i> Sign up with Google
+                        </button>
+                        <button type="button" class="facebook-btn">
+                            <i class="fab fa-facebook-f"></i> Sign up with Facebook
+                        </button>
+                    </div>
+                </form>
+                <p class="login-link">Already have an account? <a href="#" onclick="showLoginFromSignup()">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="quickViewModal" class="modal">
+        <div class="modal-content product-modal">
+            <span class="close">&times;</span>
+            <div class="product-quick-view">
+                <div class="product-images">
+                    <div class="main-image">
+                        <img src="" alt="Product">
+                    </div>
+                    <div class="thumbnail-images">
+                        <!-- Thumbnails will be added dynamically -->
+                    </div>
+                </div>
+                <div class="product-details">
+                    <h2 class="product-title"></h2>
+                    <div class="product-price">
+                        <span class="rent-price"></span>
+                        <span class="original-price"></span>
+                    </div>
+                    <div class="product-description">
+                        <!-- Description will be added dynamically -->
+                    </div>
+                    <div class="rental-duration">
+                        <label>Rental Duration</label>
+                        <select>
+                            <option value="1">1 Day</option>
+                            <option value="3">3 Days</option>
+                            <option value="7">7 Days</option>
+                        </select>
+                    </div>
+                    <div class="size-selector">
+                        <label>Select Size</label>
+                        <div class="size-options">
+                            <button>S</button>
+                            <button>M</button>
+                            <button>L</button>
+                            <button>XL</button>
+                        </div>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="rent.js"></script>
+</body>
+</html>
