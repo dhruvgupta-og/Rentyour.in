@@ -699,3 +699,244 @@ document.querySelectorAll('nav ul li a').forEach(link => {
         }
     });
 });
+
+// Add Dark Mode Toggle
+function addDarkModeToggle() {
+    const header = document.querySelector('nav ul');
+    const darkModeButton = document.createElement('li');
+    darkModeButton.innerHTML = `
+        <button onclick="toggleDarkMode()" class="dark-mode-btn">
+            <i class="fas fa-moon"></i>
+        </button>
+    `;
+    header.appendChild(darkModeButton);
+}
+
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    const icon = document.querySelector('.dark-mode-btn i');
+    icon.classList.toggle('fa-moon');
+    icon.classList.toggle('fa-sun');
+    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+}
+
+// Check dark mode preference on load
+document.addEventListener('DOMContentLoaded', function() {
+    addDarkModeToggle();
+    if (localStorage.getItem('darkMode') === 'true') {
+        toggleDarkMode();
+    }
+});
+
+// Wishlist Functionality
+let wishlistItems = [];
+
+function toggleWishlist(productId, productName) {
+    const index = wishlistItems.indexOf(productId);
+    if (index === -1) {
+        wishlistItems.push(productId);
+        showToast(`${productName} added to wishlist!`, 'success');
+    } else {
+        wishlistItems.splice(index, 1);
+        showToast(`${productName} removed from wishlist!`, 'info');
+    }
+    localStorage.setItem('wishlist', JSON.stringify(wishlistItems));
+    updateWishlistUI();
+}
+
+function updateWishlistUI() {
+    document.querySelectorAll('.wishlist-btn').forEach(btn => {
+        const productId = btn.dataset.productId;
+        const icon = btn.querySelector('i');
+        if (wishlistItems.includes(productId)) {
+            icon.classList.remove('far');
+            icon.classList.add('fas');
+            btn.classList.add('active');
+        } else {
+            icon.classList.add('far');
+            icon.classList.remove('fas');
+            btn.classList.remove('active');
+        }
+    });
+}
+
+// Share Functionality
+function shareProduct(productName, productUrl) {
+    if (navigator.share) {
+        navigator.share({
+            title: productName,
+            text: `Check out this amazing ${productName} on RentYour.in!`,
+            url: productUrl
+        })
+        .then(() => showToast('Shared successfully!', 'success'))
+        .catch((error) => console.log('Error sharing:', error));
+    } else {
+        // Fallback for browsers that don't support Web Share API
+        const shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(
+            `Check out this amazing ${productName} on RentYour.in! ${productUrl}`
+        )}`;
+        window.open(shareUrl, '_blank');
+    }
+}
+
+// Virtual Try-On Functionality
+let stream = null;
+let capturedImage = null;
+
+async function openVirtualTryOn(productImage) {
+    const modal = document.getElementById('virtualTryOnModal');
+    const video = document.getElementById('webcamVideo');
+    const productOverlay = document.getElementById('productOverlay');
+    
+    modal.style.display = 'block';
+    productOverlay.src = productImage;
+    
+    try {
+        stream = await navigator.mediaDevices.getUserMedia({ 
+            video: { facingMode: "user" } 
+        });
+        video.srcObject = stream;
+    } catch (error) {
+        showToast('Unable to access camera', 'error');
+        console.error('Camera error:', error);
+    }
+}
+
+function capturePhoto() {
+    const video = document.getElementById('webcamVideo');
+    const canvas = document.getElementById('tryOnCanvas');
+    const productOverlay = document.getElementById('productOverlay');
+    
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    
+    const ctx = canvas.getContext('2d');
+    
+    // Draw video frame
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    
+    // Draw product overlay
+    const overlayWidth = canvas.width * 0.5;
+    const overlayHeight = (overlayWidth * productOverlay.height) / productOverlay.width;
+    const x = (canvas.width - overlayWidth) / 2;
+    const y = (canvas.height - overlayHeight) / 2;
+    
+    ctx.drawImage(productOverlay, x, y, overlayWidth, overlayHeight);
+    
+    // Add watermark
+    ctx.font = '20px Arial';
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+    ctx.fillText('RentYour.in', 20, canvas.height - 20);
+    
+    capturedImage = canvas.toDataURL('image/png');
+    showToast('Photo captured!', 'success');
+}
+
+function downloadPhoto() {
+    if (!capturedImage) {
+        showToast('Capture a photo first!', 'warning');
+        return;
+    }
+    
+    const link = document.createElement('a');
+    link.download = 'virtual-try-on.png';
+    link.href = capturedImage;
+    link.click();
+}
+
+// Clean up camera stream when modal closes
+document.querySelector('#virtualTryOnModal .close').addEventListener('click', () => {
+    if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+    }
+    document.getElementById('virtualTryOnModal').style.display = 'none';
+});
+
+// Size Recommender System
+let currentStep = 1;
+const totalSteps = 3;
+
+function openSizeRecommender() {
+    const modal = document.getElementById('sizeRecommenderModal');
+    modal.style.display = 'block';
+    currentStep = 1;
+    updateStepUI();
+}
+
+function updateStepUI() {
+    document.querySelectorAll('.step').forEach(step => {
+        step.classList.remove('active');
+    });
+    document.querySelector(`[data-step="${currentStep}"]`).classList.add('active');
+    
+    // Update indicators
+    document.querySelectorAll('.indicator').forEach((ind, index) => {
+        ind.classList.toggle('active', index + 1 <= currentStep);
+    });
+    
+    // Update navigation buttons
+    document.querySelector('.prev-step').disabled = currentStep === 1;
+    const nextBtn = document.querySelector('.next-step');
+    nextBtn.textContent = currentStep === totalSteps ? 'Finish' : 'Next';
+}
+
+function calculateSize() {
+    const height = parseFloat(document.getElementById('height').value);
+    const weight = parseFloat(document.getElementById('weight').value);
+    const bodyType = document.getElementById('bodyType').value;
+    
+    // Simple size calculation logic (can be made more sophisticated)
+    let size = 'M';
+    let measurements = {
+        shoulder: 42,
+        chest: 98,
+        waist: 82,
+        hip: 96
+    };
+    
+    if (height < 165) size = 'S';
+    else if (height > 180) size = 'L';
+    
+    if (weight < 60) size = 'S';
+    else if (weight > 80) size = 'L';
+    
+    if (bodyType === 'athletic' || bodyType === 'curvy') {
+        measurements.chest += 4;
+        measurements.shoulder += 2;
+    }
+    
+    return { size, measurements };
+}
+
+// Event Listeners
+document.querySelector('.next-step').addEventListener('click', () => {
+    if (currentStep === totalSteps) {
+        document.getElementById('sizeRecommenderModal').style.display = 'none';
+        return;
+    }
+    
+    if (currentStep === 1) {
+        const result = calculateSize();
+        document.querySelector('.recommended-size').textContent = result.size;
+        document.querySelectorAll('.size-stats span').forEach((span, index) => {
+            const measurement = Object.values(result.measurements)[index];
+            span.textContent = `${measurement} cm`;
+        });
+    }
+    
+    currentStep++;
+    updateStepUI();
+});
+
+document.querySelector('.prev-step').addEventListener('click', () => {
+    currentStep--;
+    updateStepUI();
+});
+
+// Fit preference selection
+document.querySelectorAll('.fit-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.fit-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    });
+});
