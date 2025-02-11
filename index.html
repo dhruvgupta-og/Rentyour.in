@@ -143,25 +143,58 @@
             <h2>Featured Products</h2>
             <div class="product-grid">
                 <div class="product-card">
+                    <button class="wishlist-btn" data-product-id="1" onclick="toggleWishlist('1', 'Designer Lehenga')">
+                        <i class="far fa-heart"></i>
+                    </button>
                     <img src="len.webp" alt="Designer Lehenga">
                     <h3>Designer Lehenga</h3>
                     <p class="price">Rent: ₹2000/day</p>
                     <p class="original-price">Original: ₹25,000</p>
-                    <button class="rent-now">Rent Now</button>
+                    <div class="product-actions">
+                        <button class="rent-now">Rent Now</button>
+                        <button onclick="openVirtualTryOn('len.webp')" class="try-on-btn">
+                            <i class="fas fa-camera"></i> Virtual Try-On
+                        </button>
+                        <button onclick="openSizeRecommender()" class="size-recommender-btn">
+                            <i class="fas fa-ruler"></i> Find My Size
+                        </button>
+                    </div>
                 </div>
                 <div class="product-card">
+                    <button class="wishlist-btn" data-product-id="2" onclick="toggleWishlist('2', 'Premium Suit')">
+                        <i class="far fa-heart"></i>
+                    </button>
                     <img src="suit.webp" alt="Premium Suit">
                     <h3>Premium Suit</h3>
                     <p class="price">Rent: ₹1500/day</p>
                     <p class="original-price">Original: ₹15,000</p>
-                    <button class="rent-now">Rent Now</button>
+                    <div class="product-actions">
+                        <button class="rent-now">Rent Now</button>
+                        <button onclick="openVirtualTryOn('suit.webp')" class="try-on-btn">
+                            <i class="fas fa-camera"></i> Virtual Try-On
+                        </button>
+                        <button onclick="openSizeRecommender()" class="size-recommender-btn">
+                            <i class="fas fa-ruler"></i> Find My Size
+                        </button>
+                    </div>
                 </div>
                 <div class="product-card">
+                    <button class="wishlist-btn" data-product-id="3" onclick="toggleWishlist('3', 'Silk Saree')">
+                        <i class="far fa-heart"></i>
+                    </button>
                     <img src="saree.webp" alt="Silk Saree">
                     <h3>Silk Saree</h3>
                     <p class="price">Rent: ₹1000/day</p>
                     <p class="original-price">Original: ₹12,000</p>
-                    <button class="rent-now">Rent Now</button>
+                    <div class="product-actions">
+                        <button class="rent-now">Rent Now</button>
+                        <button onclick="openVirtualTryOn('saree.webp')" class="try-on-btn">
+                            <i class="fas fa-camera"></i> Virtual Try-On
+                        </button>
+                        <button onclick="openSizeRecommender()" class="size-recommender-btn">
+                            <i class="fas fa-ruler"></i> Find My Size
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -493,6 +526,111 @@
                         </div>
                     </div>
                     <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="virtualTryOnModal" class="modal">
+        <div class="modal-content try-on-modal">
+            <span class="close">&times;</span>
+            <div class="try-on-container">
+                <video id="webcamVideo" autoplay playsinline></video>
+                <canvas id="tryOnCanvas"></canvas>
+                <img id="productOverlay" src="" alt="Product Overlay">
+                <div class="try-on-controls">
+                    <button onclick="capturePhoto()" class="capture-btn">
+                        <i class="fas fa-camera"></i> Capture
+                    </button>
+                    <button onclick="downloadPhoto()" class="download-btn">
+                        <i class="fas fa-download"></i> Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="sizeRecommenderModal" class="modal">
+        <div class="modal-content size-modal">
+            <span class="close">&times;</span>
+            <div class="size-recommender">
+                <h2>Smart Size Recommender</h2>
+                <div class="measurement-steps">
+                    <div class="step active" data-step="1">
+                        <div class="step-content">
+                            <h3>Quick Size Finder</h3>
+                            <div class="quick-size">
+                                <div class="input-group">
+                                    <label>Height (cm)</label>
+                                    <input type="number" id="height" min="100" max="220">
+                                </div>
+                                <div class="input-group">
+                                    <label>Weight (kg)</label>
+                                    <input type="number" id="weight" min="30" max="150">
+                                </div>
+                                <div class="input-group">
+                                    <label>Age</label>
+                                    <input type="number" id="age" min="15" max="100">
+                                </div>
+                                <div class="input-group">
+                                    <label>Body Type</label>
+                                    <select id="bodyType">
+                                        <option value="slim">Slim</option>
+                                        <option value="average">Average</option>
+                                        <option value="athletic">Athletic</option>
+                                        <option value="curvy">Curvy</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step" data-step="2">
+                        <div class="step-content">
+                            <h3>Fit Preference</h3>
+                            <div class="fit-preference">
+                                <button class="fit-btn" data-fit="loose">
+                                    <i class="fas fa-tshirt"></i>
+                                    Loose Fit
+                                </button>
+                                <button class="fit-btn" data-fit="regular">
+                                    <i class="fas fa-tshirt"></i>
+                                    Regular Fit
+                                </button>
+                                <button class="fit-btn" data-fit="slim">
+                                    <i class="fas fa-tshirt"></i>
+                                    Slim Fit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step" data-step="3">
+                        <div class="step-content">
+                            <h3>Your Perfect Size</h3>
+                            <div class="size-result">
+                                <div class="size-circle">
+                                    <span class="recommended-size">M</span>
+                                </div>
+                                <div class="size-details">
+                                    <p>Based on your measurements:</p>
+                                    <ul class="size-stats">
+                                        <li>Shoulder: <span>42 cm</span></li>
+                                        <li>Chest: <span>98 cm</span></li>
+                                        <li>Waist: <span>82 cm</span></li>
+                                        <li>Hip: <span>96 cm</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="step-navigation">
+                    <button class="prev-step" disabled>Previous</button>
+                    <div class="step-indicators">
+                        <span class="indicator active"></span>
+                        <span class="indicator"></span>
+                        <span class="indicator"></span>
+                    </div>
+                    <button class="next-step">Next</button>
                 </div>
             </div>
         </div>
